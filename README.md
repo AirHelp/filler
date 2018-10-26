@@ -4,12 +4,12 @@ Filler is a simple tool to fill config templates using environment variables.
 
 
 ## CLI usage
-Basic usage:
+### Usage:
 ```
 filler --dir <directory> --ext <template_extension>
 ```
 
-Sample usage:
+### Sample usage:
 ```
 filler --dir /etc --ext devops_template
 ```
