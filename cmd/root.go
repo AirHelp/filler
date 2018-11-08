@@ -16,14 +16,9 @@ const (
 
 var rootCmd = &cobra.Command{
 	Use:   "filler",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	RunE: template,
+	Short: "Filler - fill templates with environment variables",
+	Long:  "Filler - fill templates with environment variables",
+	RunE:  template,
 }
 
 func Execute() {
@@ -39,6 +34,7 @@ func init() {
 }
 
 func template(cmd *cobra.Command, args []string) error {
+
 	dirToScan, err := cmd.Flags().GetString(directoryToScanArgument)
 	if err != nil {
 		return err
