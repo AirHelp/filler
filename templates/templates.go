@@ -2,6 +2,7 @@ package templates
 
 import (
 	"bytes"
+	"errors"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -34,20 +35,23 @@ func readTemplate(filePath string) (string, error) {
 	return string(templateBuffer), nil
 }
 
-func getEnv(envName string) string {
+func getEnv(envName string) (string, error) {
 	envName = strings.ToUpper(envName)
 	env := os.Getenv(envName)
 	if env == "" {
-		env = envName + " is missing"
+		return "", errors.New("ENV variablie is missing")
+	} else {
+		return env, nil
 	}
-	return env
 }
 
 func renderTemplate(templateText string) (templateResultBuffer bytes.Buffer, err error) {
 
 	// Create a FuncMap with which to register the function.
 	funcMap := template.FuncMap{
-		"getEnv": getEnv,
+		"getEnv": func(key string) (string, error) {
+			return getEnv(key)
+		},
 	}
 
 	// Create a template, add the function map, and parse the text.
@@ -60,7 +64,7 @@ func renderTemplate(templateText string) (templateResultBuffer bytes.Buffer, err
 	return
 }
 
-func writeTemplateResults(templateFile string, templateResultBuffer bytes.Buffer) error {
+func writeTemplateResults(templateFile string, templateResultBuffer bytes.Buffer, deleteFile bool) error {
 
 	var perms os.FileMode
 	currentTemplateFileInfo, err := os.Stat(templateFile)
@@ -77,11 +81,15 @@ func writeTemplateResults(templateFile string, templateResultBuffer bytes.Buffer
 		return err
 	}
 
-	return os.Remove(templateFile)
+	if deleteFile {
+		return os.Remove(templateFile)
+	} else {
+		return nil
+	}
 
 }
 
-func SearchAndFill(toScan string, fileExt string) error {
+func SearchAndFill(toScan string, fileExt string, deleteFile bool) error {
 
 	st, err := os.Stat(toScan)
 
@@ -112,7 +120,7 @@ func SearchAndFill(toScan string, fileExt string) error {
 		if err != nil {
 			return err
 		}
-		if err := writeTemplateResults(file, templateResultBuffer); err != nil {
+		if err := writeTemplateResults(file, templateResultBuffer, deleteFile); err != nil {
 			return err
 		}
 	}

@@ -12,6 +12,7 @@ import (
 const (
 	toScanArgument        = "src"
 	fileExtensionArgument = "ext"
+	deleteTemplateFile    = "delete"
 )
 
 var rootCmd = &cobra.Command{
@@ -31,6 +32,7 @@ func Execute() {
 func init() {
 	rootCmd.PersistentFlags().String(toScanArgument, "", "directory where app will search for templates or single file template")
 	rootCmd.PersistentFlags().String(fileExtensionArgument, "tpl", "template file extension")
+	rootCmd.PersistentFlags().Bool(deleteTemplateFile, false, "delete template file after filling")
 }
 
 func template(cmd *cobra.Command, args []string) error {
@@ -51,7 +53,12 @@ func template(cmd *cobra.Command, args []string) error {
 		return errors.New("File extension is missing")
 	}
 
-	if err := t.SearchAndFill(toScan, fileExt); err != nil {
+	deleteFile, err := cmd.Flags().GetBool(deleteTemplateFile)
+	if err != nil {
+		return err
+	}
+
+	if err := t.SearchAndFill(toScan, fileExt, deleteFile); err != nil {
 		return err
 	}
 	return nil

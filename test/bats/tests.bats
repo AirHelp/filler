@@ -20,11 +20,12 @@ filler=$PWD/filler
 
 @test "filler-run-without-ext" {
     export TEST1="blabla"
+    export TEST2="blabla2"
     run $filler --src test/output
     [ $status -eq 0 ]
     run grep "blabla" test/output/a.conf
     [ $status -eq 0 ]
-    run grep "TEST2 is missing" test/output/b.conf
+    run grep "blabla2" test/output/b.conf
     [ $status -eq 0 ]
 }
 
@@ -44,5 +45,24 @@ filler=$PWD/filler
     [ $status -eq 0 ]
 }
 
+@test "filler-run-with-missing-var" {
+    export TEST1="blabla"
+    run $filler --src test/output
+    [ $status -ne 0 ]
+    [[ ${lines[0]} =~ "ENV variablie is missing" ]]
+}
+
+@test "filler-run-with-delete" {
+    export TEST1="blabla"
+    export TEST2="blabla2"
+    run $filler --src test/output --delete
+    [ $status -eq 0 ]
+    run grep "blabla" test/output/a.conf
+    [ $status -eq 0 ]
+    run grep "blabla2" test/output/b.conf
+    [ $status -eq 0 ]
+    run ls test/output/*tpl
+    [ $status -ne 0 ]
+}
 
 
