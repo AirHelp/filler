@@ -60,7 +60,7 @@ func renderTemplate(templateText string) (templateResultBuffer bytes.Buffer, err
 	return
 }
 
-func writeTemplateResults(templateFile string, templateResultBuffer bytes.Buffer) error {
+func writeTemplateResults(templateFile string, templateResultBuffer bytes.Buffer, deleteFile bool) error {
 
 	var perms os.FileMode
 	currentTemplateFileInfo, err := os.Stat(templateFile)
@@ -77,11 +77,15 @@ func writeTemplateResults(templateFile string, templateResultBuffer bytes.Buffer
 		return err
 	}
 
-	return os.Remove(templateFile)
+	if deleteFile {
+		return os.Remove(templateFile)
+	} else {
+		return nil
+	}
 
 }
 
-func SearchAndFill(toScan string, fileExt string) error {
+func SearchAndFill(toScan string, fileExt string, deleteFile bool) error {
 
 	st, err := os.Stat(toScan)
 
@@ -112,7 +116,7 @@ func SearchAndFill(toScan string, fileExt string) error {
 		if err != nil {
 			return err
 		}
-		if err := writeTemplateResults(file, templateResultBuffer); err != nil {
+		if err := writeTemplateResults(file, templateResultBuffer, deleteFile); err != nil {
 			return err
 		}
 	}
