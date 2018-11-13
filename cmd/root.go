@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	directoryToScanArgument = "dir"
-	fileExtensionArgument   = "ext"
+	toScanArgument        = "src"
+	fileExtensionArgument = "ext"
 )
 
 var rootCmd = &cobra.Command{
@@ -29,17 +29,17 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.PersistentFlags().String(directoryToScanArgument, "", "directory where app will search for templates")
+	rootCmd.PersistentFlags().String(toScanArgument, "", "directory where app will search for templates or single file template")
 	rootCmd.PersistentFlags().String(fileExtensionArgument, "tpl", "template file extension")
 }
 
 func template(cmd *cobra.Command, args []string) error {
 
-	dirToScan, err := cmd.Flags().GetString(directoryToScanArgument)
+	toScan, err := cmd.Flags().GetString(toScanArgument)
 	if err != nil {
 		return err
 	}
-	if dirToScan == "" {
+	if toScan == "" {
 		return errors.New("directory path is missing")
 	}
 
@@ -51,7 +51,7 @@ func template(cmd *cobra.Command, args []string) error {
 		return errors.New("File extension is missing")
 	}
 
-	if err := t.SearchAndFill(dirToScan, fileExt); err != nil {
+	if err := t.SearchAndFill(toScan, fileExt); err != nil {
 		return err
 	}
 	return nil

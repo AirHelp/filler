@@ -20,7 +20,7 @@ filler=$PWD/filler
 
 @test "filler-run-without-ext" {
     export TEST1="blabla"
-    run $filler --dir test/output
+    run $filler --src test/output
     [ $status -eq 0 ]
     run grep "blabla" test/output/a.conf
     [ $status -eq 0 ]
@@ -30,9 +30,17 @@ filler=$PWD/filler
 
 @test "filler-run-with-ext" {
     export TEST2="blabla"
-    run $filler --dir test/output --ext tpl_new
+    run $filler --src test/output --ext tpl_new
     [ $status -eq 0 ]
     run grep "blabla" test/output/c.conf
+    [ $status -eq 0 ]
+}
+
+@test "filler-run-with-single-file" {
+    export TEST1="blabla"
+    run $filler --src test/output/d.conf.tpl_single --ext tpl_single
+    [ $status -eq 0 ]
+    run grep "blabla" test/output/d.conf
     [ $status -eq 0 ]
 }
 

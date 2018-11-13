@@ -81,11 +81,26 @@ func writeTemplateResults(templateFile string, templateResultBuffer bytes.Buffer
 
 }
 
-func SearchAndFill(dirToScan string, fileExt string) error {
+func SearchAndFill(toScan string, fileExt string) error {
 
-	files, err := glob(dirToScan, fileExt)
+	st, err := os.Stat(toScan)
+
 	if err != nil {
 		return err
+	}
+
+	files := []string{}
+
+	if st.IsDir() {
+		var err error
+
+		files, err = glob(toScan, fileExt)
+
+		if err != nil {
+			return err
+		}
+	} else {
+		files = append(files, toScan)
 	}
 
 	for _, file := range files {

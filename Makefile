@@ -27,6 +27,7 @@ testall: test dev
 	echo '{{ getEnv "TEST1" }}' > test/output/a.conf.tpl
 	echo '{{ getEnv "TEST2" }}' > test/output/b.conf.tpl
 	echo '{{ getEnv "TEST2" }}' > test/output/c.conf.tpl_new
+	echo '{{ getEnv "TEST1" }}' > test/output/d.conf.tpl_single
 	bats test/bats/tests.bats
 
 build: test
