@@ -18,9 +18,9 @@ filler=$PWD/filler
     [[ ${lines[0]} =~ "Version: " ]]
 }
 
-@test "filler-run" {
+@test "filler-run-without-ext" {
     export TEST1="blabla"
-    run $filler --dir test/output --ext tpl
+    run $filler --dir test/output
     [ $status -eq 0 ]
     run grep "blabla" test/output/a.conf
     [ $status -eq 0 ]
@@ -28,11 +28,13 @@ filler=$PWD/filler
     [ $status -eq 0 ]
 }
 
-#@test "template-and-var-append" {
-#  run $treasury template --src test/resources/bats-source.secret.tpl --dst test/output/bats-output.secret --append 'key1:treasury'
-#  [ $status -eq 0 ]
-#  run grep "key1=secret1treasury" test/output/bats-output.secret
-#  [ $status -eq 0 ]
-#}   
+@test "filler-run-with-ext" {
+    export TEST2="blabla"
+    run $filler --dir test/output --ext tpl_new
+    [ $status -eq 0 ]
+    run grep "blabla" test/output/c.conf
+    [ $status -eq 0 ]
+}
+
 
 

@@ -26,6 +26,7 @@ test: docker-test-build fmt vet
 testall: test dev
 	echo '{{ getEnv "TEST1" }}' > test/output/a.conf.tpl
 	echo '{{ getEnv "TEST2" }}' > test/output/b.conf.tpl
+	echo '{{ getEnv "TEST2" }}' > test/output/c.conf.tpl_new
 	bats test/bats/tests.bats
 
 build: test
@@ -39,12 +40,6 @@ build: test
 	done
 
 release: build
-	@which hub >/dev/null || { echo 'No hub cli installed. Exiting...'; exit 1; }
-	hub release create \
-		-a pkg/filler-darwin-amd64.tar.bz2 \
-		-a pkg/filler-linux-amd64.tar.bz2 \
-		-m ${FILLER_VERSION} \
-		${FILLER_VERSION}
 	@for distro in ${BUILD_DISTROS}; do \
 		AWS_PROFILE=production aws s3 cp --acl public-read \
 			pkg/filler-$${distro}-amd64.tar.bz2 s3://airhelp-devops-binaries/filler/${FILLER_VERSION}/filler-$${distro}-amd64.tar.bz2; \

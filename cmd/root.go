@@ -30,7 +30,7 @@ func Execute() {
 
 func init() {
 	rootCmd.PersistentFlags().String(directoryToScanArgument, "", "directory where app will search for templates")
-	rootCmd.PersistentFlags().String(fileExtensionArgument, "", "template file extension")
+	rootCmd.PersistentFlags().String(fileExtensionArgument, "tpl", "template file extension")
 }
 
 func template(cmd *cobra.Command, args []string) error {

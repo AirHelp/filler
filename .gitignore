@@ -1,3 +1,4 @@
 vendor/
 pkg/
-test/output
+test/output/*.conf.*
+filler

@@ -1,11 +1,10 @@
-FROM golang:1.10-alpine
+FROM golang:1.11.2-alpine
+
+ENV CGO_ENABLED=0
+ENV GO111MODULE=on
 
 WORKDIR /go/src/github.com/AirHelp/filler
-RUN apk add --no-cache git && go get github.com/golang/dep/cmd/dep
+RUN apk add --no-cache git
 
-# copies the Gopkg.toml and Gopkg.lock to WORKDIR
-COPY Gopkg.toml Gopkg.lock ./
-# install the dependencies without checking for go code
-RUN dep ensure -v -vendor-only
 COPY . .
 CMD ["go", "test", "-cover", "-v", "./..."]
