@@ -11,10 +11,10 @@ filler --dir <directory> --ext <template_extension>
 
 ### Sample usage:
 ```
-filler --dir /etc --ext devops_template
+filler --dir /etc --ext tpl
 ```
 
-sample test.conf.devops_template placed in /etc :
+sample test.conf.tpl placed in /etc :
 ```
 This is template file version {{ getEnv "VERSION" }}
 ```
