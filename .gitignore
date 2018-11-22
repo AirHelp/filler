@@ -1,0 +1,4 @@
+vendor/
+pkg/
+test/output/*.conf*
+filler
