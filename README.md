@@ -6,12 +6,12 @@ Filler is a simple tool to fill config templates using environment variables.
 ## CLI usage
 ### Usage:
 ```
-filler --dir <directory> --ext <template_extension>
+filler --src <directory> --ext <template_extension>
 ```
 
 ### Sample usage:
 ```
-filler --dir /etc --ext tpl
+filler --src /etc --ext tpl
 ```
 
 sample test.conf.tpl placed in /etc :

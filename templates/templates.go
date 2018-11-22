@@ -39,7 +39,7 @@ func getEnv(envName string) (string, error) {
 	envName = strings.ToUpper(envName)
 	env := os.Getenv(envName)
 	if env == "" {
-		return "", errors.New("ENV variablie is missing")
+		return "", errors.New("ENV variable is missing")
 	} else {
 		return env, nil
 	}

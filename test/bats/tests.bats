@@ -49,7 +49,7 @@ filler=$PWD/filler
     export TEST1="blabla"
     run $filler --src test/output
     [ $status -ne 0 ]
-    [[ ${lines[0]} =~ "ENV variablie is missing" ]]
+    [[ ${lines[0]} =~ "ENV variable is missing" ]]
 }
 
 @test "filler-run-with-delete" {
