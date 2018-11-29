@@ -36,7 +36,7 @@ build: test
 	@for distro in ${BUILD_DISTROS}; do \
 		GOOS=$${distro} go build -ldflags "${GO_LDFLAGS}" -o pkg/$${distro}/filler; \
 		cd pkg/$${distro}; \
-		tar -cjf ../filler-$${distro}-amd64.tar.bz2 filler; \
+		tar -czf ../filler-$${distro}-amd64.tar.gz filler; \
 		cd ../..; \
 	done
 
