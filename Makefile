@@ -36,15 +36,15 @@ build: test
 	@for distro in ${BUILD_DISTROS}; do \
 		GOOS=$${distro} go build -ldflags "${GO_LDFLAGS}" -o pkg/$${distro}/filler; \
 		cd pkg/$${distro}; \
-		tar -cjf ../filler-$${distro}-amd64.tar.bz2 filler; \
+		tar -czf ../filler-$${distro}-amd64.tar.gz filler; \
 		cd ../..; \
 	done
 
 release: build
 	@for distro in ${BUILD_DISTROS}; do \
 		AWS_PROFILE=production aws s3 cp --acl public-read \
-			pkg/filler-$${distro}-amd64.tar.bz2 s3://airhelp-devops-binaries/filler/${FILLER_VERSION}/filler-$${distro}-amd64.tar.bz2; \
-		shasum -a 256 pkg/filler-$${distro}-amd64.tar.bz2; \
+			pkg/filler-$${distro}-amd64.tar.gz s3://airhelp-devops-binaries/filler/${FILLER_VERSION}/filler-$${distro}-amd64.tar.gz; \
+		shasum -a 256 pkg/filler-$${distro}-amd64.tar.gz; \
 	done
 dev:
 	go build
