@@ -65,4 +65,12 @@ filler=$PWD/filler
     [ $status -ne 0 ]
 }
 
+@test "filler-run-with-array" {
+    export ARRAY="a1,a2,a3"
+    run $filler --src test/output --ext tpl_array
+    [ $status -eq 0 ]
+    run grep "a1a2a3" test/output/e.conf
+    [ $status -eq 0 ]
+}
+
 

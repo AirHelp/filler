@@ -1,0 +1,2 @@
+{{ range getEnvArray "ARRAY" }}{{ . }}
+{{ end }}

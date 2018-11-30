@@ -45,12 +45,25 @@ func getEnv(envName string) (string, error) {
 	}
 }
 
+func getEnvArray(envName string) ([]string, error) {
+	env, err := getEnv(envName)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return strings.Split(env, ","), nil
+}
+
 func renderTemplate(templateText string) (templateResultBuffer bytes.Buffer, err error) {
 
 	// Create a FuncMap with which to register the function.
 	funcMap := template.FuncMap{
 		"getEnv": func(key string) (string, error) {
 			return getEnv(key)
+		},
+		"getEnvArray": func(key string) ([]string, error) {
+			return getEnvArray(key)
 		},
 	}
 
