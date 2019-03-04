@@ -8,32 +8,31 @@ podTemplate(label: label, yaml: readTrusted('JenkinsPods.yaml')) {
     gitCheckout()
 
     ci {
-      stage("Build test image") {
-        container('docker') {
-          sh "docker build -t local/fillertests -f Dockerfile-test ."
+      stage('download Go deps') {
+        container('golang'){
+          sh 'apk add --no-cache git'
+          sh 'go mod download'
         }
       }
 
-      stage("Run fmt and vet") {
-        parallel (
-          fmt: {
-            container('docker') {
-              sh "docker run --rm local/fillertests gofmt -s -w ."
-            }
-          },
-          vet: {
-            container('docker') {
-              sh "docker run --rm local/fillertests go vet -v ./..."
-            }
-          }
-        )
+      stage('go test') {
+        container('golang'){
+          sh 'go test -cover -v ./...'
+        }
       }
 
-      stage("Run tests") {
-        container('docker') {
-          sh "docker run --rm local/fillertests"
+      stage('go formatting') {
+        container('golang'){
+          sh 'gofmt -s -w .'
+        }
+      }
+
+      stage('go vet') {
+        container('golang'){
+          sh 'go vet -v ./...'
         }
       }
     }
+
   }
 }
