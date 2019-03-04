@@ -5,12 +5,13 @@ def label = "filler-${UUID.randomUUID().toString()}"
 
 podTemplate(label: label, yaml: readTrusted('JenkinsPods.yaml')) {
   node(label) {
-    gitCheckout()
 
     ci {
+      gitCheckout()
+
       stage('download Go deps') {
         container('golang'){
-          sh 'apk add --no-cache git'
+          sh 'apk add --no-cache git gcc libc-dev'
           sh 'go mod download'
         }
       }
