@@ -11,7 +11,7 @@ podTemplate(label: label, yaml: readTrusted('JenkinsPods.yaml')) {
 
       stage('download Go deps') {
         container('golang'){
-          sh 'apk add --no-cache git gcc libc-dev'
+          sh 'apk add --no-cache git'
           sh 'go mod download'
         }
       }
