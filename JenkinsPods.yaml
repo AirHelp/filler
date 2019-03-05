@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: golang
+spec:
+  containers:
+  - name: golang
+    image: golang:1.11.2-alpine
+    command:
+    - cat
+    tty: true
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+    env:
+      - name: GO111MODULE
+        value: "on"
+      - name: CGO_ENABLED
+        value: 0
