@@ -47,3 +47,33 @@ ruby
 
 
 ```
+
+### Sample with map:
+Variable with map should looks like this:
+```
+KEYS="key1,key2" MAP="{ \"key1\": \"key1-value\", \"key2\": \"key2-value\"}"
+```
+
+Template file which use this map:
+```
+{ {{ range getEnvArray "KEYS" }}
+  {
+    "key": "{{ . }}",
+    "value": "{{ getEnvMap "MAP" . }}",
+  },{{ end }}
+}
+```
+
+Output file:
+```
+{
+  {
+    "key": "key1",
+    "value": "key1-value",
+  },
+  {
+    "key": "key2",
+    "value": "key2-value",
+  },
+}
+```

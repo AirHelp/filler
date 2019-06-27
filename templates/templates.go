@@ -2,6 +2,7 @@ package templates
 
 import (
 	"bytes"
+	"encoding/json"
 	"errors"
 	"io/ioutil"
 	"os"
@@ -55,6 +56,19 @@ func getEnvArray(envName string) ([]string, error) {
 	return strings.Split(env, ","), nil
 }
 
+func getEnvMap(envName string, envKey string) (string, error) {
+	jsonString, err := getEnv(envName)
+
+	if err != nil {
+		return "", err
+	}
+
+	var jsonResult map[string]interface{}
+	json.Unmarshal([]byte(jsonString), &jsonResult)
+
+	return jsonResult[envKey].(string), nil
+}
+
 func renderTemplate(templateText string) (templateResultBuffer bytes.Buffer, err error) {
 
 	// Create a FuncMap with which to register the function.
@@ -64,6 +78,9 @@ func renderTemplate(templateText string) (templateResultBuffer bytes.Buffer, err
 		},
 		"getEnvArray": func(key string) ([]string, error) {
 			return getEnvArray(key)
+		},
+		"getEnvMap": func(envName string, envKey string) (string, error) {
+			return getEnvMap(envName, envKey)
 		},
 	}
 

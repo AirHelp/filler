@@ -29,6 +29,7 @@ testall: test dev
 	echo '{{ getEnv "TEST2" }}' > test/output/c.conf.tpl_new
 	echo '{{ getEnv "TEST1" }}' > test/output/d.conf.tpl_single
 	echo '{{ range getEnvArray "ARRAY"}}{{.}}{{ end }}' > test/output/e.conf.tpl_array
+	echo '{ {{ range getEnvArray "KEYS" }}\n\t{\n\t\t"key": "{{ . }}",\n\t\t"value": "{{ getEnvMap "MAP" . }}",\n\t},{{ end }}\n}' > test/output/m.conf.tpl_map
 	bats test/bats/tests.bats
 
 build: test

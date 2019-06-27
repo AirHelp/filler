@@ -73,4 +73,12 @@ filler=$PWD/filler
     [ $status -eq 0 ]
 }
 
+@test "filler-run-with-map" {
+    export KEYS="key1,key2"
+    export MAP="{\"key1\":\"key1-value\",\"key2\":\"key2-value\"}"
+    run $filler --src test/output --ext tpl_map
+    [ $status -eq 0 ]
+    result=$(grep -c key.-value test/output/m.conf)
+    [ $result -eq 2 ]
+}
 
