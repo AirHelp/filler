@@ -5,7 +5,7 @@ import (
 	"runtime"
 )
 
-const version = "0.2.0"
+const version = "0.2.1"
 
 // This will be filled in by the compiler.
 var (
