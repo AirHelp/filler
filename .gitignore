@@ -2,3 +2,6 @@ vendor/
 pkg/
 test/output/*.conf*
 filler
+dist/
+.vscode
+.devbox
