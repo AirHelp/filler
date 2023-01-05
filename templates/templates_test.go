@@ -41,7 +41,7 @@ func TestSearchAndFill(t *testing.T) {
 	os.Setenv("TEST2", "test_2")
 	os.Setenv("ARRAY", "a1,a2,a3")
 
-	if err := templates.SearchAndFill(dirToScanTest, fileExtTest, false); err != nil {
+	if err := templates.SearchAndFill(dirToScanTest, fileExtTest, false, false); err != nil {
 		t.Error("Could not search and fill templates. Error: ", err.Error())
 	}
 
