@@ -3,7 +3,6 @@ package templates
 import (
 	"bytes"
 	"errors"
-	"fmt"
 
 	"os"
 	"path/filepath"
@@ -66,19 +65,19 @@ func globExt(dir string, ext string) ([]string, error) {
 func glob(dir string) ([]string, error) {
 	files := []string{}
 	err := filepath.Walk(dir, func(path string, f os.FileInfo, err error) error {
-			if err != nil {
-				return err
-			}
+		if err != nil {
+			return err
+		}
 
-			st, err := os.Stat(path)
+		st, err := os.Stat(path)
 
-			if err != nil {
-				return err
-			}
+		if err != nil {
+			return err
+		}
 
-			if !st.IsDir() {
-				files = append(files, path)
-			}
+		if !st.IsDir() {
+			files = append(files, path)
+		}
 		return nil
 	})
 
@@ -174,19 +173,15 @@ func SearchAndFill(toScan string, fileExt string, deleteFile bool, inPlace bool)
 	if st.IsDir() {
 		var err error
 
-		switch inPlace {
-		case true:
-			fmt.Println("1")
+		if inPlace {
 			files, err = glob(toScan)
-			fmt.Println("2")
-		case false:
+		} else {
 			files, err = globExt(toScan, fileExt)
 		}
-		
+
 		if err != nil {
 			return err
 		}
-		fmt.Println(files)
 	} else {
 		files = append(files, toScan)
 	}

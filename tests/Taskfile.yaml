@@ -1,0 +1,21 @@
+version: 3
+
+tasks:
+  run:
+  - task: test:delimiters
+  - task: test:in-place
+
+  test:delimiters:
+    env:
+      ENV1: Fluffy
+    cmds:
+    - ../filler --src delimiters --right-delimiter '~~' --left-delimiter '~~'
+
+  test:in-place:
+    env: 
+      ENV1: Fluffy
+    cmds:
+    - echo 'Hey << .ENV1 >>!' > in-place/test.yaml
+    - echo 'Hey << .ENV1 >>!' > in-place/subdir/test.yaml
+    - ../filler --src in-place --in-place  --right-delimiter '>>' --left-delimiter '<<'
+    

@@ -16,9 +16,9 @@ const (
 )
 
 var (
-	leftDelimiter string 
+	leftDelimiter  string
 	rightDelimiter string
-	inPlace bool
+	inPlace        bool
 )
 
 var rootCmd = &cobra.Command{
