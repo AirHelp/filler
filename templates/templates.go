@@ -15,9 +15,7 @@ const (
 	DefaultDestinationFilePerms = 0644
 )
 
-var (
-	tpl *template.Template
-)
+var tpl *template.Template
 
 func init() {
 	// Create a FuncMap with which to register the function.
@@ -28,8 +26,8 @@ func init() {
 		"getEnvArray": func(key string) ([]string, error) {
 			return getEnvArray(key)
 		},
-		"required": func(env interface{}) (string, error) {
-			return required(env)
+		"required": func(env string) (string, error) {
+			return env, nil
 		},
 	}
 
@@ -63,7 +61,7 @@ func globExt(dir string, ext string) ([]string, error) {
 }
 
 func glob(dir string) ([]string, error) {
-	files := []string{}
+	var files []string
 	err := filepath.Walk(dir, func(path string, f os.FileInfo, err error) error {
 		if err != nil {
 			return err
@@ -110,13 +108,6 @@ func getEnvArray(envName string) ([]string, error) {
 	}
 
 	return strings.Split(env, ","), nil
-}
-
-func required(env interface{}) (string, error) {
-	if env == nil {
-		return "", errors.New("ENV variable is missing")
-	}
-	return env.(string), nil
 }
 
 func renderTemplate(templateText string) (templateResultBuffer bytes.Buffer, err error) {

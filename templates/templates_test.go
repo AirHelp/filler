@@ -1,7 +1,6 @@
 package templates_test
 
 import (
-	"io/ioutil"
 	"os"
 	"testing"
 
@@ -46,7 +45,7 @@ func TestSearchAndFill(t *testing.T) {
 	}
 
 	for _, file := range files {
-		data, err := ioutil.ReadFile(file.fileName)
+		data, err := os.ReadFile(file.fileName)
 		if err != nil {
 			t.Error(err)
 		}

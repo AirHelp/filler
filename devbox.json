@@ -1,7 +1,8 @@
 {
   "packages": [
     "go_1_19",
-    "goreleaser"
+    "goreleaser",
+    "go-task"
   ],
   "shell": {
     "init_hook": null

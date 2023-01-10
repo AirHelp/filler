@@ -75,3 +75,11 @@ If `MISSING_ENV` is not set in the shell an error will be returned:
 ### With in-place templating 
 
 `filler --in-place` - extension doesn't need to be provided
+
+## Development
+
+### Tools
+
+- **[finch](https://github.com/runfinch/finch)** - to build and publish images on MacOS
+- **[devbox](https://github.com/jetpack-io/devbox)** - to prepare development environment with required tools, execute `devbox shell` to enter development environment
+- **[taskfile](https://github.com/go-task/task)** - to execute tasks related to builds or tests, run `task build-and-test` to build Filler and execute tests

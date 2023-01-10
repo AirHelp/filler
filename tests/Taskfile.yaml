@@ -4,6 +4,8 @@ tasks:
   run:
   - task: test:delimiters
   - task: test:in-place
+  - task: test:required
+  - echo "Success"
 
   test:delimiters:
     env:
@@ -19,3 +21,11 @@ tasks:
     - echo 'Hey << .ENV1 >>!' > in-place/subdir/test.yaml
     - ../filler --src in-place --in-place  --right-delimiter '>>' --left-delimiter '<<'
     
+  test:required:
+    env:
+      ENV1: 1
+    cmds:
+    - >
+     ../filler --src required &> /dev/null
+     && (echo "ERROR: template didn't failed as expected" && exit 1)
+     || true
