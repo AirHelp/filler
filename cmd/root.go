@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	t "github.com/AirHelp/filler/templates"
+	"github.com/AirHelp/filler/templates"
 	"github.com/spf13/cobra"
 )
 
@@ -13,6 +13,12 @@ const (
 	toScanArgument        = "src"
 	fileExtensionArgument = "ext"
 	deleteTemplateFile    = "delete"
+)
+
+var (
+	leftDelimiter  string
+	rightDelimiter string
+	inPlace        bool
 )
 
 var rootCmd = &cobra.Command{
@@ -33,9 +39,16 @@ func init() {
 	rootCmd.PersistentFlags().String(toScanArgument, "", "directory where app will search for templates or single file template")
 	rootCmd.PersistentFlags().String(fileExtensionArgument, "tpl", "template file extension")
 	rootCmd.PersistentFlags().Bool(deleteTemplateFile, false, "delete template file after filling")
+	rootCmd.PersistentFlags().StringVar(&leftDelimiter, "left-delimiter", "", "left delimiter")
+	rootCmd.PersistentFlags().StringVar(&rightDelimiter, "right-delimiter", "", "right delimiter")
+	rootCmd.PersistentFlags().BoolVar(&inPlace, "in-place", false, "template file without creating new one")
 }
 
 func template(cmd *cobra.Command, args []string) error {
+
+	if err := setDelimiters(); err != nil {
+		return err
+	}
 
 	toScan, err := cmd.Flags().GetString(toScanArgument)
 	if err != nil {
@@ -50,7 +63,7 @@ func template(cmd *cobra.Command, args []string) error {
 		return err
 	}
 	if fileExt == "" {
-		return errors.New("File extension is missing")
+		return errors.New("file extension is missing")
 	}
 
 	deleteFile, err := cmd.Flags().GetBool(deleteTemplateFile)
@@ -58,8 +71,20 @@ func template(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	if err := t.SearchAndFill(toScan, fileExt, deleteFile); err != nil {
+	if err := templates.SearchAndFill(toScan, fileExt, deleteFile, inPlace); err != nil {
 		return err
 	}
+	return nil
+}
+
+func setDelimiters() error {
+	if (rightDelimiter != "" && leftDelimiter == "") || (rightDelimiter == "" && leftDelimiter != "") {
+		return errors.New("both delimiters must be set or none")
+	}
+
+	if rightDelimiter != "" && leftDelimiter != "" {
+		templates.SetDelimiters(leftDelimiter, rightDelimiter)
+	}
+
 	return nil
 }

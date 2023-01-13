@@ -44,6 +44,42 @@ golang
 c
 python
 ruby
+```
 
+### With direct environment variable access
 
 ```
+{{ .ENV1 }}
+{{ .ENV2 }}
+```
+
+### With required function
+
+```
+{{ required .MISSING_ENV }}
+```
+
+If `MISSING_ENV` is not set in the shell an error will be returned:
+
+`template: templateCli:2:17: executing "templateCli" at <required>: error calling required: ENV variable is missing`
+
+
+### With custom delimiter
+
+```
+~~ .ENV1 ~~
+```
+
+`filler --left-delim '~~' --right-delim '~~'`
+
+### With in-place templating 
+
+`filler --in-place` - extension doesn't need to be provided
+
+## Development
+
+### Tools
+
+- **[finch](https://github.com/runfinch/finch)** - to build and publish images on MacOS
+- **[devbox](https://github.com/jetpack-io/devbox)** - to prepare development environment with required tools, execute `devbox shell` to enter development environment
+- **[taskfile](https://github.com/go-task/task)** - to execute tasks related to builds or tests, run `task build-and-test` to build Filler and execute tests

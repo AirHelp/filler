@@ -1,7 +1,6 @@
 package templates_test
 
 import (
-	"io/ioutil"
 	"os"
 	"testing"
 
@@ -41,12 +40,12 @@ func TestSearchAndFill(t *testing.T) {
 	os.Setenv("TEST2", "test_2")
 	os.Setenv("ARRAY", "a1,a2,a3")
 
-	if err := templates.SearchAndFill(dirToScanTest, fileExtTest, false); err != nil {
+	if err := templates.SearchAndFill(dirToScanTest, fileExtTest, false, false); err != nil {
 		t.Error("Could not search and fill templates. Error: ", err.Error())
 	}
 
 	for _, file := range files {
-		data, err := ioutil.ReadFile(file.fileName)
+		data, err := os.ReadFile(file.fileName)
 		if err != nil {
 			t.Error(err)
 		}
