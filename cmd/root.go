@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/AirHelp/filler/consts"
 	"github.com/AirHelp/filler/log"
 	"github.com/AirHelp/filler/templates"
 	"github.com/spf13/cobra"
@@ -14,7 +15,6 @@ const (
 	toScanArgument        = "src"
 	fileExtensionArgument = "ext"
 	deleteTemplateFile    = "delete"
-	FailIfMissing = "fail-if-missing"
 )
 
 var (
@@ -47,7 +47,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&rightDelimiter, "right-delimiter", "", "right delimiter")
 	rootCmd.PersistentFlags().BoolVar(&inPlace, "in-place", false, "template file without creating new one")
 	rootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "turn on debug logging")
-	rootCmd.PersistentFlags().BoolVar(&failIfMissing, FailIfMissing, false, "will return an error if any variable is missing")
+	rootCmd.PersistentFlags().BoolVar(&failIfMissing, consts.FailIfMissing, false, "will return an error if any variable is missing")
 }
 
 func template(cmd *cobra.Command, args []string) error {

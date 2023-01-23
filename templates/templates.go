@@ -9,7 +9,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/AirHelp/filler/cmd"
+	"github.com/AirHelp/filler/consts"
 	"go.uber.org/zap"
 )
 
@@ -37,7 +37,7 @@ func init() {
 }
 
 func SetFailIfMissing() {
-	zap.S().Debugf("Setting %v", cmd.FailIfMissing)
+	zap.S().Debugf("Setting %v", consts.FailIfMissing)
 	tpl = tpl.Option("missingkey=error")
 }
 

@@ -12,7 +12,7 @@ func InitLogger(logLevel string) {
 	switch logLevel {
 	case "debug":
 		zapLogLevel = zap.DebugLevel
-	default: 
+	default:
 		zapLogLevel = zap.InfoLevel
 	}
 
