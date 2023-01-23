@@ -3,12 +3,14 @@ package templates
 import (
 	"bytes"
 	"errors"
-
 	"os"
 	"path/filepath"
 
 	"strings"
 	"text/template"
+
+	"github.com/AirHelp/filler/consts"
+	"go.uber.org/zap"
 )
 
 const (
@@ -32,6 +34,11 @@ func init() {
 	}
 
 	tpl = template.New("templateCli").Funcs(funcMap)
+}
+
+func SetFailIfMissing() {
+	zap.S().Debugf("Setting %v", consts.FailIfMissing)
+	tpl = tpl.Option("missingkey=error")
 }
 
 func SetDelimiters(left string, right string) {
@@ -178,6 +185,7 @@ func SearchAndFill(toScan string, fileExt string, deleteFile bool, inPlace bool)
 	}
 
 	for _, file := range files {
+		zap.S().Debugf("Templating file: %v", file)
 		templateText, err := readTemplate(file)
 		if err != nil {
 			return err

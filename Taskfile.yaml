@@ -6,18 +6,19 @@ includes:
     dir: tests
 
 vars:
-  VERSION: 0.2.1
+  VERSION: 0.4.0
+  REPOSITORY: ""
 
 tasks:
   build: go build 
 
   build:image:
     cmds:
-    - finch build --platform linux/arm64,linux/amd64 -t filler:{{ .VERSION }} . 
+    - finch build --platform linux/arm64,linux/amd64 -t {{ .REPOSITORY }}/filler:{{ .VERSION }} . 
 
   push:image:
     cmds:
-    - finch push --all-platforms filler:{{ .VERSION }}
+    - finch push --all-platforms {{ .REPOSITORY }}/filler:{{ .VERSION }}
 
   build-and-test:
   - task: build

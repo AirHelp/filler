@@ -5,6 +5,7 @@ tasks:
   - task: test:delimiters
   - task: test:in-place
   - task: test:required
+  - task: test:fail-if-missing
   - echo "Success"
 
   test:delimiters:
@@ -27,5 +28,12 @@ tasks:
     cmds:
     - >
      ../filler --src required &> /dev/null
+     && (echo "ERROR: template didn't failed as expected" && exit 1)
+     || true
+
+  test:fail-if-missing:
+    cmds:
+    - >
+     ../filler --src fail-if-missing --fail-if-missing &> /dev/null
      && (echo "ERROR: template didn't failed as expected" && exit 1)
      || true
