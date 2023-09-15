@@ -9,7 +9,7 @@ require (
 
 require (
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
-	go.uber.org/zap v1.25.0
+	go.uber.org/zap v1.26.0
 )
 
 require go.uber.org/multierr v1.10.0 // indirect
