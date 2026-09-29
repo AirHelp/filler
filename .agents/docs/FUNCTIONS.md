@@ -1,0 +1,7 @@
+- **Config template filling** — renders configuration files from templates by substituting environment variable values, typically as a container start-up step.
+  - **Template discovery** — scans a directory recursively for template files with a given extension, or processes a single template file.
+  - **Value substitution** — replaces placeholders with environment variable values, either via lookup functions or direct variable references.
+    - **Array expansion** — splits a comma-separated environment variable into a list and renders one entry per item.
+    - **Required values** — fails rendering when a variable marked as required, or any referenced variable in strict mode, is missing.
+  - **Output handling** — writes the filled file next to the template without its template extension, or overwrites the template in place; optionally deletes the template afterwards.
+  - **Custom delimiters** — accepts alternative placeholder delimiters so templates can coexist with other templating syntaxes.

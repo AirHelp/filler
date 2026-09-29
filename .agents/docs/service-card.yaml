@@ -1,0 +1,6 @@
+---
+name: filler
+kind: platform
+domain: developer-tooling
+description: |
+  Filler is a small command-line utility that renders **configuration files from templates** by substituting **environment variable** values, typically run as a **container start-up step** before an application boots. It can process whole directories or single files, expand comma-separated variables into lists, and fail fast when **required variables** are missing.
